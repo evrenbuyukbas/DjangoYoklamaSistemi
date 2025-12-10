@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yoklama Kontrol Paneli</title>
+</head>
+<body>
+    <h1>Canlı Yoklama Durumu</h1>
+    <a href="{% url 'kayit_ekle' %}">Yeni Öğrenci Ekle</a>
+    <hr>
+    
+    <div style="display: flex; gap: 20px;">
+        <div>
+            <h2>Canlı Kamera Akışı</h2>
+            {% if kamera_acik %}
+                <img src="{% url 'video_feed' %}" width="640" height="480" style="border: 2px solid #007bff;">
+            {% else %}
+                <div style="width: 640px; height: 480px; background-color: #f0f0f0; text-align: center; padding-top: 200px; color: red;">
+                    KAMERA KAPALI VEYA ERİŞİLEMEDİ
+                </div>
+            {% endif %}
+        </div>
+        
+        <div>
+            <h2>Anlık Sınıf Mevcudu</h2>
+            <table border="1" style="width: 400px; text-align: left;">
+                <thead>
+                    <tr>
+                        <th>Öğrenci No</th>
+                        <th>Ad Soyad</th>
+                        <th>Durum</th>
+                        <th>Son İşlem Zamanı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ogrenci in mevcut_listesi %}
+                    <tr style="background-color: {% if ogrenci.durum == 'GIRIS' %}#e6ffe6{% else %}#ffe6e6{% endif %};">
+                        <td>{{ ogrenci.ogrenci_no }}</td>
+                        <td>{{ ogrenci.ad_soyad }}</td>
+                        <td><strong>{{ ogrenci.durum }}</strong></td>
+                        <td>{{ ogrenci.son_zaman }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
