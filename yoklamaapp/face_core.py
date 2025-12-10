@@ -129,7 +129,7 @@ def tanima_islemi(frame):
     draw = ImageDraw.Draw(pil_image)
     # GITHUB TEST
     # GITHUB TEST-2
-
+    # GITHUB TEST-3
     try:
         font = ImageFont.truetype(FONT_YOLU, FONT_BOYUTU)
     except IOError:
