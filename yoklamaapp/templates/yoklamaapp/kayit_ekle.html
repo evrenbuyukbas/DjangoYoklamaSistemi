@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Yeni Öğrenci Kaydı</title>
+</head>
+<body>
+    <h1>Yeni Öğrenci Ekle</h1>
+    <a href="{% url 'dashboard' %}">← Panele Geri Dön</a>
+    <hr>
+    
+    <div style="display: flex; gap: 20px;">
+        <div>
+            <h2>Yüz Yakalama</h2>
+            <video id="videoElement" width="320" height="240" autoplay style="border: 1px solid black;"></video>
+            <canvas id="canvas" width="320" height="240" style="display: none;"></canvas>
+            <br>
+            <button id="captureButton">Fotoğraf Çek</button>
+        </div>
+        
+        <div id="formContainer" style="display: none;">
+            <h2>Bilgileri Girin</h2>
+            <form id="ogrenciForm">
+                <p>
+                    <label for="ogrenci_no">Öğrenci Numarası:</label>
+                    <input type="text" id="ogrenci_no" name="ogrenci_no" required>
+                </p>
+                <p>
+                    <label for="ad_soyad">Adı Soyadı:</label>
+                    <input type="text" id="ad_soyad" name="ad_soyad" required>
+                </p>
+                <input type="hidden" id="foto_data" name="foto">
+                <button type="submit">Kaydet ve Kodla</button>
+            </form>
+            <p id="message" style="color: green;"></p>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('videoElement');
+        const canvas = document.getElementById('canvas');
+        const captureButton = document.getElementById('captureButton');
+        const formContainer = document.getElementById('formContainer');
+        const ogrenciForm = document.getElementById('ogrenciForm');
+        const fotoDataInput = document.getElementById('foto_data');
+        const messageDisplay = document.getElementById('message');
+
+        // Kamerayı başlat
+        if (navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function (stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function (error) {
+                    console.log("Kamera erişimi reddedildi veya hata oluştu!", error);
+                    alert("Kameraya erişim izni vermelisiniz.");
+                });
+        }
+
+        // Fotoğraf çekme
+        captureButton.addEventListener('click', () => {
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, 320, 240);
+            
+            // Canvas içeriğini base64'e dönüştür
+            const dataURL = canvas.toDataURL('image/jpeg');
+            
+            fotoDataInput.value = dataURL;
+            video.style.border = '3px solid green'; // Başarılı görsel geri bildirimi
+            formContainer.style.display = 'block';
+            captureButton.disabled = true;
+        });
+
+        // Form gönderme
+        ogrenciForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            messageDisplay.textContent = 'Kaydediliyor ve Yüz Kodlanıyor...';
+            
+            fetch("{% url 'kayit_ekle' %}", {
+                method: 'POST',
+                body: new FormData(ogrenciForm)
+            })
+            .then(response => response.json())
+            .then(data => {
+                messageDisplay.textContent = data.message;
+                if (data.success) {
+                    ogrenciForm.reset();
+                    formContainer.style.display = 'none';
+                    video.style.border = '1px solid black';
+                    captureButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                messageDisplay.textContent = 'Ağ Hatası: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>

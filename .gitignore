@@ -1,0 +1,24 @@
+# Python Bytecode Dosyaları
+*.pyc
+__pycache__/
+
+# Sanal Ortamlar
+.venv
+venv/
+env/
+/yoklama_web/ # Eğer sanal ortamınız buradaysa
+ 
+# Veritabanı
+db.sqlite3
+ 
+# Django Ayarları ve Güvenlik
+/YoklamaProjesi/settings_local.py
+ 
+# Görüntü İşleme / Loglar
+# .pickle dosyaları (face_encodings.pickle vb. varsa)
+*.pickle 
+*.log
+ 
+# Medya ve Statik Dosyalar (Opsiyonel, Eğer çok büyükse)
+/media/
+/static/
