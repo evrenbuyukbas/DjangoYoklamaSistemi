@@ -130,6 +130,7 @@ def tanima_islemi(frame):
     # GITHUB TEST
     # GITHUB TEST-2
     # GITHUB TEST-3
+    # GITHUB TEST-4
     try:
         font = ImageFont.truetype(FONT_YOLU, FONT_BOYUTU)
     except IOError:
