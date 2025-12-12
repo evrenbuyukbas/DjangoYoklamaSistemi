@@ -12,10 +12,10 @@ LAST_SEEN_TIME = {}
 TEKRAR_SURESI = 30 # saniye
 
 # TÜRKÇE KARAKTER İÇİN KRİTİK AYAR
-# 'arial.ttf' dosyasını YoklamaProjesi klasörüne kopyaladığınızı varsayıyoruz
+# 'arial.ttf' dosyasını YoklamaProjesi klasörüne kopyaladım
 FONT_YOLU = "arial.ttf" 
-FONT_BOYUTU = 30
-# ---------------
+FONT_BOYUTU = 20
+# --------------- 
 
 
 def kodlamalari_yukle():
